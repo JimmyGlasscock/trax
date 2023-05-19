@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('car_id');
+            $table->unsignedBigInteger('car_id');
             $table->date('date');
             $table->integer('miles');
             $table->timestamps();
