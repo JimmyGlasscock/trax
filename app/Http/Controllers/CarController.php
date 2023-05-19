@@ -48,9 +48,11 @@ class CarController extends Controller
     public function getCars()
     {
 
-        print_r(Car::all()->toArray());
+        $cars = [];
 
-        return Car::all()->toArray();
+        $cars['data'] = Car::all()->toArray();
+
+        return $cars;
     }
 
     /**
