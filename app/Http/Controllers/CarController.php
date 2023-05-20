@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Car;
+use Illuminate\Support\Facades\DB;
 
 /**
  * This controller is used for anything pertaining to the Car object.
@@ -103,7 +104,7 @@ class CarController extends Controller
     public function deleteCar(Car $car)
     {
         $result = $car->delete();
-        
+
         return $result;
     }
 
@@ -116,7 +117,12 @@ class CarController extends Controller
      */
     public function getTripCount($id)
     {
-        return 0;
+        $count = DB::table('trips')
+            ->selectRaw('count(car_id) as count')
+            ->where('car_id', '=', $id)
+            ->first();
+
+        return $count->count;
     }
 
     /**
@@ -128,6 +134,11 @@ class CarController extends Controller
      */
     public function getTripMiles($id)
     {
-        return 0;
+        $miles = DB::table('trips')
+            ->selectRaw('sum(miles) as miles')
+            ->where('car_id', '=', $id)
+            ->first();
+
+        return $miles->miles;
     }
 }
