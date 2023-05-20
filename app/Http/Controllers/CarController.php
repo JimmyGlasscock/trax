@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use App\Car;
 
 /**
@@ -59,7 +60,6 @@ class CarController extends Controller
      */
     public function getCars()
     {
-
         $cars = [];
 
         $cars['data'] = Car::all()->toArray();
