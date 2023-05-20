@@ -16,7 +16,7 @@ let traxAPI = {
     return '/api/mock-get-trips';
   },
   addTripEndpoint() {
-    return 'api/mock-add-trip'
+    return 'api/add-trip'
   }
 }
 

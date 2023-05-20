@@ -31,7 +31,9 @@ class TripController extends Controller
     {
         $trips = [];
 
-        $trips['data'] = Trip::all()->toArray();
+        //USE CLEAN SQL HERE!!!! NOT ELOQUENT
+
+        $trips['data'] = '';
 
         return $trips;
     }
@@ -50,9 +52,13 @@ class TripController extends Controller
             'miles' => 'required|numeric'
         ]);
 
+        //trim the date
+        $endOfDate = strpos($request->get('date'), 'T');
+        $date = substr($request->get('date'), 0, $endOfDate);
+
         $trip = new Trip();
 
-        $trip->date = $request->get('date');
+        $trip->date = $date;
         $trip->car_id = $request->get('car_id');
         $trip->miles = $request->get('miles');
 
