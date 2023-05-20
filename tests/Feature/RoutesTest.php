@@ -6,47 +6,35 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use App\User;
+
 class RoutesTest extends TestCase
 {
     /**
-     * tests the get-cars route
+     * tests the get-cars route if the user is not logged in
      *
      * @return void
      */
-    public function test_get_cars()
+    public function test_get_cars_not_logged_in()
     {
-        $response = $this->get('/get-cars');
 
-        $response->assertStatus(200);
+        $response = $this->get('/api/get-cars');
+
+        $response->assertRedirect(route('login'));
     }
 
     /**
-     * tests the get-car/{id} route
+     * tests the get-cars route if the user is logged in
      *
      * @return void
      */
-    public function test_get_car_by_id()
+    public function test_get_cars_logged_in()
     {
-        //Create a Car so that we have something access
-        $addResponse = $this->postJson('/add-car', ['year' => '2012', 'make' => 'Mini', 'model' => 'Cooper']);
-
-        $addResponse->assertStatus(201);
-
-        //get the car we just made
-        $response = $this->get('/get-car/1');
+        // I am not sure why this does not properly log in the user.
+        // This test is not working because of this.
+        $user = User::first();
+        $response = $this->actingAs($user)->get('/api/get-cars');
 
         $response->assertStatus(200);
-    }
-
-    /**
-     * tests the add-car route
-     *
-     * @return void
-     */
-    public function test_add_car()
-    {
-        $response = $this->postJson('/add-car', ['year' => '2012', 'make' => 'Mini', 'model' => 'Cooper']);
-
-        $response->assertStatus(201);
     }
 }

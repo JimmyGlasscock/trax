@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Http\Controllers\CarController;
 
 class CarControllerTest extends TestCase
@@ -15,8 +15,7 @@ class CarControllerTest extends TestCase
     public function test_get_cars()
     {
         $controller = new CarController();
-
-        $this->assertTrue(is_array($controller->getCars()));
+        $this->assertTrue(is_array($controller->getCars()));   
     }
 
     /**
@@ -24,10 +23,10 @@ class CarControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_get_car_by_id_withh_null()
+    public function test_get_car_by_id_with_null()
     {
         $controller = new CarController();
 
-        $this->assertTrue($controller->getCarsById(null) == []);
+        $this->assertTrue($controller->getCarById(null) == []);
     }
 }
