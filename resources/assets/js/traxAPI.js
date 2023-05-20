@@ -4,13 +4,13 @@ let traxAPI = {
     return '/api/get-cars'
   },
   getCarEndpoint(id) {
-    return '/api/mock-get-car' + '/' + id;
+    return '/api/get-car' + '/' + id;
   },
   addCarEndpoint() {
     return '/api/add-car';
   },
   deleteCarEndpoint(id) {
-    return '/api/mock-delete-car' + '/' + id;
+    return '/api/delete-car' + '/' + id;
   },
   getTripsEndpoint() {
     return '/api/mock-get-trips';

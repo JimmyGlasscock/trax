@@ -42,10 +42,10 @@ class CarController extends Controller
         $car = Car::find($id)->toArray();
 
         //add trip count
-        $car['trip_count'] = getTripCount($car['id']);
+        $car['trip_count'] = $this->getTripCount($car['id']);
 
         //add trip miles
-        $car['trip_miles'] = getTripMiles($car['id']);
+        $car['trip_miles'] = $this->getTripMiles($car['id']);
 
         $result['data'] = $car;
 
@@ -96,19 +96,14 @@ class CarController extends Controller
     /**
      * Deletes the specified car object from the database.
      * 
-     * @param request - request object
+     * @param Car - car object to be deleted
      * 
      * @return result - true if delete was successful, false otherwise
      */
-    public function deleteCar(Request $request)
+    public function deleteCar(Car $car)
     {
-        //validate the input
-        $request->validate([
-            'id' => 'required|integer'
-        ]);
-
-        $result = Car::where('id', $request->get('id'))->delete();
-
+        $result = $car->delete();
+        
         return $result;
     }
 
@@ -121,7 +116,7 @@ class CarController extends Controller
      */
     public function getTripCount($id)
     {
-
+        return 0;
     }
 
     /**
@@ -133,6 +128,6 @@ class CarController extends Controller
      */
     public function getTripMiles($id)
     {
-
+        return 0;
     }
 }

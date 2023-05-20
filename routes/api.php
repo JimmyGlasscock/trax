@@ -26,7 +26,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/get-car/{id}', 'CarController@getCarById')->middleware('auth:api');
 Route::get('/get-cars', 'CarController@getCars')->middleware('auth:api');
 Route::post('/add-car', 'CarController@addCar')->middleware('auth:api');
-Route::delete('/delete-car', 'CarController@deleteCar')->middleware('auth:api');
+Route::delete('delete-car/{car}', 'CarController@deleteCar')->middleware('auth:api');
 
 
 
