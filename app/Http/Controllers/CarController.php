@@ -36,6 +36,7 @@ class CarController extends Controller
         if (is_null($id))
         {
             //error handling would go here
+            return [];
         }
 
         $result = [];
