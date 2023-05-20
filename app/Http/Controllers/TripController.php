@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Trip;
 
 /**
@@ -31,9 +32,13 @@ class TripController extends Controller
     {
         $trips = [];
 
-        //USE CLEAN SQL HERE!!!! NOT ELOQUENT
+        //Sort by date
+        //Add up miles as we go
+        $trips = DB::table('trips')->orderBy('date')->selectRaw('date, miles, car_id, sum(miles) over total')->get();
 
-        $trips['data'] = '';
+        //make date look nice
+
+        $trips['data'] = $trips->toArray();
 
         return $trips;
     }
