@@ -26,7 +26,7 @@ class CarController extends Controller
      * 
      * @param id - id of the Car to be returned
      * 
-     * @return Car - Car object
+     * @return result - array containing car data
      */
     public function getCarById($id)
     {
@@ -36,7 +36,19 @@ class CarController extends Controller
             //error handling would go here
         }
 
-        return Car::find($id);
+        $result = [];
+
+        $car = Car::find($id)->toArray();
+
+        //add trip count
+        $car['trip_count'] = getTripCount($car['id']);
+
+        //add trip miles
+        $car['trip_miles'] = getTripMiles($car['id']);
+
+        $result['data'] = $car;
+
+        return $result;
     }
 
     /**
@@ -72,9 +84,9 @@ class CarController extends Controller
 
         $car = new Car;
 
-        $car->year = $request->input('year');
-        $car->make = $request->input('make');
-        $car->model = $request->input('model');
+        $car->year = $request->get('year');
+        $car->make = $request->get('make');
+        $car->model = $request->get('model');
 
         $result = $car->save();
 
@@ -95,7 +107,7 @@ class CarController extends Controller
             'id' => 'required|integer'
         ]);
 
-        $result = Car::where('id', $request->input('id'))->delete();
+        $result = Car::where('id', $request->get('id'))->delete();
 
         return $result;
     }
