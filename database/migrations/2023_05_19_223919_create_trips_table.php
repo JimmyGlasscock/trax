@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('car_id');
             $table->datetime('date');
-            $table->decimal('miles');
+            $table->decimal('miles', 8, 1);
             $table->timestamps();
 
             $table->foreign('car_id')

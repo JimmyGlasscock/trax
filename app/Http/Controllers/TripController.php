@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Trip;
 
 /**
@@ -34,13 +35,33 @@ class TripController extends Controller
 
         //Sort by date
         //Add up miles as we go
-        $trips = DB::table('trips')->orderBy('date')->selectRaw('date, miles, car_id, sum(miles) over total')->get();
+        $trips = DB::table('trips')
+            ->orderBy('date', 'desc')
+            ->selectRaw('id, date, miles, car_id, sum(miles) over (order by date) total')
+            ->get();
 
-        //make date look nice
+        $trips = $trips->toArray();
 
-        $trips['data'] = $trips->toArray();
+        //grab the car for each trip
+        for($i = 0; $i < count($trips); $i++)
+        {
+            $car_id = $trips[$i]->car_id;
+            $car = DB::table('cars')
+                ->select('id', 'make', 'model', 'year')
+                ->where('id', '=', $car_id)
+                ->first();
+
+            $trips[$i]->car = $car;
+
+            //make the date look nice
+            $date = new Carbon($trips[$i]->date);
+            $trips[$i]->date = $date->format('m/d/Y');
+        }
+
+        $trips['data'] = $trips;
 
         return $trips;
+
     }
 
     /**
@@ -57,9 +78,10 @@ class TripController extends Controller
             'miles' => 'required|numeric'
         ]);
 
-        //trim the date
-        $endOfDate = strpos($request->get('date'), 'T');
+        //format the date
+        $endOfDate = strpos($request->get('date'), 'Z');
         $date = substr($request->get('date'), 0, $endOfDate);
+        $date = str_replace('T', ' ', $date);
 
         $trip = new Trip();
 
