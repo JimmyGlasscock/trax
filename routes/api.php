@@ -32,6 +32,8 @@ Route::get('/get-trips', 'TripController@getTrips')->middleware('auth:api');
 Route::post('/add-trip', 'TripController@addTrip')->middleware('auth:api');
 
 //////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
 /// Mock Endpoints To Be Replaced With RESTful API.
 /// - API implementation needs to return data in the format seen below.
 /// - Post data will be in the format seen below.
